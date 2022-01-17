@@ -2,11 +2,11 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = "w1od8!u&q8jt*-0gm&!hjw(9yy#mio-&(hnhes38wf#guo#$!u"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG") == "true"
 
 ALLOWED_HOSTS = [
     "0.0.0.0",
@@ -60,7 +60,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "steam_reporter",
         "USER": "steam_reporter",
-        "PASSWORD": "saladus",
+        "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST": "steam-screenshot-reporter-postgres",
         "PORT": "5432",
     }
@@ -96,6 +96,10 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = "/media/"
 
 CACHES = {
     "default": {
