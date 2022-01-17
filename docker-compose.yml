@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  steam-screenshot-reporter-postgres:
+    image: 'postgres:13-alpine'
+    container_name: 'steam-screenshot-reporter-postgres'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=steam_reporter
+      - POSTGRES_USER=steam_reporter
+      - POSTGRES_PASSWORD=saladus
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+  steam-screenshot-reporter:
+    build: .
+    image: laurielias/steam-screenshot-reporter:latest
+    container_name: steam-screenshot-reporter
+    ports:
+      - 8000:8000 # Django
+    volumes:
+      - .:/home/docker/steam-screenshot-reporter
+    entrypoint: 'docker-entrypoint-dev.sh'
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - steam-screenshot-reporter-postgres
