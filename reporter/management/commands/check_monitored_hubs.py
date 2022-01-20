@@ -23,6 +23,7 @@ class Command(BaseCommand):
         1008020,  # Lust Epidemic
         1724190,  # Come Home
         20900,  # Witcher
+        1172940,  # Cockwork Industries
     ]
 
     def handle(self, *args: Tuple[str], **options: Dict[str, Any]) -> None:
@@ -30,7 +31,7 @@ class Command(BaseCommand):
         session.headers.update(
             {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                "(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+                              "(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
                 "Cookie": os.getenv("STEAM_COOKIES"),
             }
         )
@@ -58,7 +59,7 @@ class Command(BaseCommand):
                             break
                         lf.write(block)
                     print("Image retrieved")
-                    screenshot = SteamScreenshot(id=file_id)
+                    screenshot = SteamScreenshot(id=file_id, app=app_id)
                     screenshot.save()
                     screenshot.image.save(f"{file_id}.jpeg", File(lf))
                 else:

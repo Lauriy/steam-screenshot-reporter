@@ -8,3 +8,5 @@ setup: https://mitelman.engineering/blog/python-best-practice/automating-python-
 classifier_model.onnx from https://github.com/notAI-tech/NudeNet/releases/tag/v0
 
 Same for detector_v2_default_checkpoint.onnx if you want it, didn't work for me.
+
+# TODO: COPY onnx
