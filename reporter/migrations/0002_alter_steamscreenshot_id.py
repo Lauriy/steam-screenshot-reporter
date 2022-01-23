@@ -12,8 +12,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="steamscreenshot",
             name="id",
-            field=models.BigIntegerField(
-                db_index=True, primary_key=True, serialize=False, unique=True
-            ),
+            field=models.BigIntegerField(db_index=True, primary_key=True, serialize=False, unique=True),
         ),
     ]

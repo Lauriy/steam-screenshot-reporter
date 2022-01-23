@@ -24,6 +24,7 @@ mypy = "^0.931"
 isort = "^5.10.1"
 black = {version = "^21.12b0", allow-prereleases = true}
 types-requests = "^2.27.7"
+django-stubs = "^1.9.0"
 
 [tool.isort]
 multi_line_output = 3
@@ -33,7 +34,7 @@ use_parentheses = true
 line_length = 79
 
 [tool.black]
-line-length = 79
+line-length = 119
 target-version = ['py39']
 include = '\.pyi?$'
 exclude = '''

@@ -22,6 +22,8 @@ COPY docker-entrypoint.sh docker-entrypoint-dev.sh /usr/bin/
 
 COPY reporter ./reporter
 
+COPY classifier_model.onnx /root/.NudeNet/classifier_model.onnx
+
 RUN chmod +x /usr/bin/docker-entrypoint.sh && \
     chmod +x /usr/bin/docker-entrypoint-dev.sh
 

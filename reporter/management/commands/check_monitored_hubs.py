@@ -11,9 +11,7 @@ from reporter.models import SteamScreenshot
 
 
 class Command(BaseCommand):
-    help = (
-        "Go through latest screenshots pages of games I'm currently angry at"
-    )
+    help = "Go through latest screenshots pages of games I'm currently angry at"
     apps_ids_to_monitor = [
         1607130,  # Lust Theory
         1126320,  # Being a DIK
@@ -31,15 +29,14 @@ class Command(BaseCommand):
         session.headers.update(
             {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                              "(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+                "(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
                 "Cookie": os.getenv("STEAM_COOKIES"),
             }
         )
         for app_id in self.apps_ids_to_monitor:
             print(f"Requesting {app_id}")
             response = session.get(
-                f"https://steamcommunity.com/app/{app_id}"
-                f"/screenshots/?p=1&browsefilter=mostrecent"
+                f"https://steamcommunity.com/app/{app_id}" f"/screenshots/?p=1&browsefilter=mostrecent"
             )
             soup = BeautifulSoup(response.content, "html.parser")
             i = 1
@@ -48,9 +45,7 @@ class Command(BaseCommand):
                 if SteamScreenshot.objects.filter(id=file_id).exists():
                     print(f"{file_id} already in database")
                     continue
-                image_url = card.find(
-                    "img", {"class": "apphub_CardContentPreviewImage"}
-                ).attrs["src"]
+                image_url = card.find("img", {"class": "apphub_CardContentPreviewImage"}).attrs["src"]
                 image_response = requests.get(image_url, stream=True)
                 if image_response.status_code == 200:
                     lf = NamedTemporaryFile()

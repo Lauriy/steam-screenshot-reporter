@@ -5,13 +5,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('reporter', '0004_remove_steamscreenshot_is_naughty_and_more'),
+        ("reporter", "0004_remove_steamscreenshot_is_naughty_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='steamscreenshot',
-            name='app',
+            model_name="steamscreenshot",
+            name="app",
             field=models.IntegerField(default=1),
             preserve_default=False,
         ),
