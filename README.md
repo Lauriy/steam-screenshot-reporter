@@ -1,4 +1,4 @@
-If I'm not allowed to upload boobies to Steam, nobody should be
+I'm mad at Steam
 
 Uses https://github.com/notAI-tech/NudeNet and Django
 

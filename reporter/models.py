@@ -7,5 +7,7 @@ class SteamScreenshot(models.Model):
     image = models.ImageField(blank=False, null=False)
     naughty_score = models.DecimalField(max_digits=5, decimal_places=4, blank=True, null=True)
     reported_at = models.DateTimeField(blank=True, null=True)
+    ban_confirmed_at = models.DateTimeField(blank=True, null=True)
+    accidental_entry = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     modified = models.DateTimeField(auto_now=True)

@@ -22,6 +22,10 @@ class Command(BaseCommand):
         1724190,  # Come Home
         20900,  # Witcher
         1172940,  # Cockwork Industries
+        1684170,  # Fetish Locator
+        1695680,  # Lunar's Chosen
+        1560790,  # Romance after dark
+        1507420,  # WanderLust
     ]
 
     def handle(self, *args: Tuple[str], **options: Dict[str, Any]) -> None:
