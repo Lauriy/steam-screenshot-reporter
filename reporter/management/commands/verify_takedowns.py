@@ -18,14 +18,15 @@ class Command(BaseCommand):
         session.headers.update(
             {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                              "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
                 "Cookie": os.getenv("STEAM_COOKIES"),
             }
         )
         now = timezone.now()
         week_ago = now - timedelta(days=7)
-        screenshots = SteamScreenshot.objects.filter(reported_at__isnull=False, accidental_entry=False,
-                                                     reported_at__lte=week_ago, ban_confirmed_at__isnull=True).all()
+        screenshots = SteamScreenshot.objects.filter(
+            reported_at__isnull=False, accidental_entry=False, reported_at__lte=week_ago, ban_confirmed_at__isnull=True
+        ).all()
         for screenshot in screenshots:
             response = session.get(f"https://steamcommunity.com/sharedfiles/filedetails/?id={screenshot.pk}")
             if "There was a problem accessing the item" in response.text:

@@ -15,8 +15,7 @@ def report_screenshot(session: requests.Session, screenshot: SteamScreenshot):
         "https://steamcommunity.com/sharedfiles/reportitem",
         {
             "id": screenshot.id,
-            "description": "Inappropriate/porn "
-                           "https://help.steampowered.com/en/faqs/view/6862-8119-C23E-EA7B",
+            "description": "Inappropriate/porn " "https://help.steampowered.com/en/faqs/view/6862-8119-C23E-EA7B",
             "sessionid": os.getenv("STEAM_SESSION_ID"),
         },
     ).json()
@@ -41,7 +40,7 @@ class Command(BaseCommand):
         session.headers.update(
             {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                              "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
                 "Cookie": os.getenv("STEAM_COOKIES"),
             }
         )
