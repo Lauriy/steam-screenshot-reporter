@@ -18,7 +18,12 @@ class Command(BaseCommand):
         screenshots = SteamScreenshot.objects.filter(naughty_score__isnull=True).all()
         for screenshot in screenshots:
             print(f"Processing {screenshot.pk}")
-            np_image = np.array(Image.open(screenshot.image))
+            try:
+                np_image = np.array(Image.open(screenshot.image))
+            except ValueError:
+                screenshot.naughty_score = 0
+                screenshot.save()
+                continue
             safety_result = classifier.classify(np_image)
             screenshot.naughty_score = safety_result[0]["unsafe"]
             new_name = f"{screenshot.pk}_{screenshot.naughty_score}.jpeg"

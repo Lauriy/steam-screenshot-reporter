@@ -33,34 +33,43 @@ class Command(BaseCommand):
         session.headers.update(
             {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                "(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+                              "(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
                 "Cookie": os.getenv("STEAM_COOKIES"),
             }
         )
         for app_id in self.apps_ids_to_monitor:
             print(f"Requesting {app_id}")
-            response = session.get(
-                f"https://steamcommunity.com/app/{app_id}" f"/screenshots/?p=1&browsefilter=mostrecent"
-            )
-            soup = BeautifulSoup(response.content, "html.parser")
-            i = 1
-            for card in soup.find_all("div", {"class": "apphub_Card"}):
-                file_id = card.attrs["data-publishedfileid"]
-                if SteamScreenshot.objects.filter(id=file_id).exists():
-                    print(f"{file_id} already in database")
-                    continue
-                image_url = card.find("img", {"class": "apphub_CardContentPreviewImage"}).attrs["src"]
-                image_response = requests.get(image_url, stream=True)
-                if image_response.status_code == 200:
-                    lf = NamedTemporaryFile()
-                    for block in image_response.iter_content(1024 * 8):
-                        if not block:
-                            break
-                        lf.write(block)
-                    print("Image retrieved")
-                    screenshot = SteamScreenshot(id=file_id, app=app_id)
-                    screenshot.save()
-                    screenshot.image.save(f"{file_id}.jpeg", File(lf))
-                else:
-                    print("Failed to get image")
-                i += 1
+            page = 1
+            existing_entry_found = False
+            while not existing_entry_found:
+                response = session.get(
+                    f"https://steamcommunity.com/app/{app_id}" f"/screenshots/?p={page}&browsefilter=mostrecent"
+                )
+                soup = BeautifulSoup(response.content, "html.parser")
+                for card in soup.find_all("div", {"class": "apphub_Card"}):
+                    file_id = card.attrs["data-publishedfileid"]
+                    if SteamScreenshot.objects.filter(id=file_id).exists():
+                        print(f"{file_id} already in database")
+                        existing_entry_found = True
+                        continue
+                    image_url = card.find("img", {"class": "apphub_CardContentPreviewImage"}).attrs["src"]
+                    user_url = card.find("div", {
+                        "class": "apphub_CardContentAuthorName"}).find_all("a")[0].attrs["href"]
+                    if user_url == "https://steamcommunity.com/id/themidnightraver/" \
+                            or user_url == "https://steamcommunity.com/id/76561198093402962/":
+                        print("Protected user, continuing")
+                        continue
+                    image_response = requests.get(image_url, stream=True)
+                    if image_response.status_code == 200:
+                        lf = NamedTemporaryFile()
+                        for block in image_response.iter_content(1024 * 8):
+                            if not block:
+                                break
+                            lf.write(block)
+                        print("Image retrieved")
+                        screenshot = SteamScreenshot(id=file_id, app=app_id)
+                        screenshot.save()
+                        screenshot.image.save(f"{file_id}.jpeg", File(lf))
+                    else:
+                        print("Failed to get image")
+                page += 1
