@@ -1,0 +1,1 @@
+python manage.py check_monitored_hubs && python manage.py check_naughtiness
