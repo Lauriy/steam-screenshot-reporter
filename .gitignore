@@ -1,3 +1,4 @@
 /media/*
 
 /.env
+/classifier_model.onnx

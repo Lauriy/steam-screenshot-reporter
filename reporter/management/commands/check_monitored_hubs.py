@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from django.core.files import File
 from django.core.management import BaseCommand
 
+from reporter.management.commands import USER_AGENT
 from reporter.models import SteamScreenshot
 
 
@@ -32,8 +33,7 @@ class Command(BaseCommand):
         session = requests.Session()
         session.headers.update(
             {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                              "(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+                "User-Agent": USER_AGENT,
                 "Cookie": os.getenv("STEAM_COOKIES"),
             }
         )
@@ -55,8 +55,8 @@ class Command(BaseCommand):
                     image_url = card.find("img", {"class": "apphub_CardContentPreviewImage"}).attrs["src"]
                     user_url = card.find("div", {
                         "class": "apphub_CardContentAuthorName"}).find_all("a")[0].attrs["href"]
-                    if user_url == "https://steamcommunity.com/id/themidnightraver/" \
-                            or user_url == "https://steamcommunity.com/id/76561198093402962/":
+                    if user_url == f"https://steamcommunity.com/id/{os.getenv('PROTECTED_USERNAME')}/" \
+                            or user_url == f"https://steamcommunity.com/id/{os.getenv('PROTECTED_USER_ID')}/":
                         print("Protected user, continuing")
                         continue
                     image_response = requests.get(image_url, stream=True)
@@ -75,7 +75,7 @@ class Command(BaseCommand):
                 page += 1
             page = 0
             print("Now going through all-time top")
-            for i in range(5):
+            for i in range(10):
                 response = session.get(
                     f"https://steamcommunity.com/app/{app_id}" f"/screenshots/?p={page}&browsefilter=toprated"
                 )
@@ -88,8 +88,8 @@ class Command(BaseCommand):
                     image_url = card.find("img", {"class": "apphub_CardContentPreviewImage"}).attrs["src"]
                     user_url = card.find("div", {
                         "class": "apphub_CardContentAuthorName"}).find_all("a")[0].attrs["href"]
-                    if user_url == "https://steamcommunity.com/id/themidnightraver/" \
-                            or user_url == "https://steamcommunity.com/id/76561198093402962/":
+                    if user_url == f"https://steamcommunity.com/id/{os.getenv('PROTECTED_USERNAME')}/" \
+                            or user_url == f"https://steamcommunity.com/id/{os.getenv('PROTECTED_USER_ID')}/":
                         print("Protected user, continuing")
                         continue
                     image_response = requests.get(image_url, stream=True)

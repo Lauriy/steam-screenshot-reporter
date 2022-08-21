@@ -11,7 +11,7 @@ from reporter.models import SteamScreenshot
 
 
 class Command(BaseCommand):
-    help = "Go through images in the database, " "use NudeNet to determine how upset we are"
+    help = "Go through images in the database, use NudeNet to determine how upset we are"
 
     def handle(self, *args: Tuple[str], **options: Dict[str, Any]) -> None:
         classifier = NudeClassifier()

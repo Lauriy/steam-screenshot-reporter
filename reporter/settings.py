@@ -103,5 +103,3 @@ CACHES = {
         "LOCATION": "",
     }
 }
-
-NAUGHTY_THRESHOLD = 0.90

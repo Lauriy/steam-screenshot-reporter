@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from django.utils import timezone
 
+from reporter.management.commands import USER_AGENT
 from reporter.models import SteamScreenshot
 
 
@@ -20,7 +21,8 @@ def report_screenshot(session: requests.Session, screenshot: SteamScreenshot):
         },
     ).json()
 
-    if response["success"] == 1:
+    if response["success"] == 1 or response["success"] == 9:
+        # 9 is probably 'already deleted'
         print("Reported")
         screenshot.reported_at = timezone.now()
         if os.path.isfile(f"{settings.MEDIA_ROOT}/{screenshot.image}"):
@@ -39,8 +41,7 @@ class Command(BaseCommand):
         session = requests.Session()
         session.headers.update(
             {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+                "User-Agent": USER_AGENT,
                 "Cookie": os.getenv("STEAM_COOKIES"),
             }
         )

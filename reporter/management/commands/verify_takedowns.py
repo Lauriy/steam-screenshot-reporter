@@ -6,6 +6,7 @@ import requests
 from django.core.management import BaseCommand
 from django.utils import timezone
 
+from reporter.management.commands import USER_AGENT
 from reporter.management.commands.report_naughties import report_screenshot
 from reporter.models import SteamScreenshot
 
@@ -17,8 +18,7 @@ class Command(BaseCommand):
         session = requests.Session()
         session.headers.update(
             {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+                "User-Agent": USER_AGENT,
                 "Cookie": os.getenv("STEAM_COOKIES"),
             }
         )
