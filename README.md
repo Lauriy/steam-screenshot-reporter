@@ -10,3 +10,5 @@ classifier_model.onnx from https://github.com/notAI-tech/NudeNet/releases/tag/v0
 Same for detector_v2_default_checkpoint.onnx if you want it, didn't work for me.
 
 `pre-commit run --all-files`
+
+TODO: Add Fetish Locator Week 2
