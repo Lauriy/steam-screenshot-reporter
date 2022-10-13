@@ -1,10 +1,9 @@
 import os
-from typing import Any, Dict, Tuple
-
 import requests
 from django.conf import settings
 from django.core.management import BaseCommand
 from django.utils import timezone
+from typing import Any, Dict, Tuple
 
 from reporter.management.commands import USER_AGENT
 from reporter.models import SteamScreenshot
@@ -16,7 +15,7 @@ def report_screenshot(session: requests.Session, screenshot: SteamScreenshot):
         "https://steamcommunity.com/sharedfiles/reportitem",
         {
             "id": screenshot.id,
-            "description": "Inappropriate/porn " "https://help.steampowered.com/en/faqs/view/6862-8119-C23E-EA7B",
+            "description": "Porn, inappropriate or offensive content, warez or leaked content or anything else not safe for work: https://help.steampowered.com/en/faqs/view/6862-8119-C23E-EA7B",
             "sessionid": os.getenv("STEAM_SESSION_ID"),
         },
     ).json()

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   steam-screenshot-reporter-postgres:
-    image: 'postgres:13-alpine'
+    image: 'postgres:14-alpine'
     container_name: 'steam-screenshot-reporter-postgres'
     ports:
       - '5432:5432'
@@ -14,7 +14,7 @@ services:
       - ./postgresql:/var/lib/postgresql
   steam-screenshot-reporter:
     build: .
-    image: laurielias/steam-screenshot-reporter:latest
+    image: laurielias/steam-screenshot-reporter:3.9
     container_name: steam-screenshot-reporter
     ports:
       - 8000:8000 # Django
