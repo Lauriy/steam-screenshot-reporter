@@ -14,3 +14,5 @@ Skip compiling scipy on Windows: https://www.lfd.uci.edu/~gohlke/pythonlibs/#sci
 Generally don't try and get this running on a local venv, use the remote one from docker-compose.
 
 `pre-commit run --all-files`
+
+// Archiving project since Steam seems to have come to their senses
